@@ -21,6 +21,7 @@ class Data:
     def map_dtype_cols(self):
         """Returns a dict of dicts mapping each df's numerical columns to float32 or int32 dtypes.
         This reduces the entire data load time to 1/3 of the original load time (1 min instead of 3 min)"""
+        
         dict_of_dfs = self.get_small_data()
         dict_dict_dtypes = {}
         for df_key, df in dict_of_dfs.items():
