@@ -70,7 +70,6 @@ class Data:
             data_dir_path = os.path.join(root_dir, f"raw_data/{table}" + ".csv")
             df_temp = pd.read_csv(data_dir_path, dtype=dict_dict_dtypes[table], nrows=nrows)
             df_dict[table] = self.df_optimized(df_temp, verbose=False)
-        
         return df_dict
 
     def drop_missing_cols_df(self, df, missing_amt=0.3, verbose=True):
@@ -103,10 +102,6 @@ class Data:
                 print(f"{df_keys}:       {df.shape[1]} --> {df_reduced.shape[1]}. Dropped {df.shape[1] - df_reduced.shape[1]} columns")
             dfs_dropped_missing_vals[df_keys] = df_reduced
         return dfs_dropped_missing_vals
-
-
-
-
 
 
 if __name__ == "__main__": 
