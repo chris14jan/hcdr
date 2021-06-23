@@ -2,12 +2,13 @@ from hcdr.data.data import Data
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
-
 def preprocess_credit_card_balance_df(): 
     
     """ A function that retrieves, preprocesses and groups the credit_card_balance_df by SK_ID_CURR using the mean """
     
+    print("Loading credit card balance data table...")
     credit_card_balance_df = Data().get_data(tables=["credit_card_balance"])["credit_card_balance"]
+    credit_card_balance_df = Data().drop_missing_cols_df(credit_card_balance_df, missing_amt=0.3, verbose=True)
     credit_card_balance_df["Credit Utilization Ratio"] = credit_card_balance_df["AMT_BALANCE"] / credit_card_balance_df["AMT_CREDIT_LIMIT_ACTUAL"]
     
     labels = ["0.00 - 0.25", "0.25 - 0.50", "0.50 - 0.75", "0.75 - 1.00", "> 1."]
