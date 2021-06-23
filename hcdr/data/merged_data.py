@@ -1,32 +1,39 @@
 import pandas as pd
 from hcdr.data.data import Data
-from hcdr.data.tbl_preproc import preprocess_credit_card_balance_df
+from hcdr.data.tbl_preproc import preprocess_credit_card_balance_df, get_final_bureau_merged, preprocess_installments_payments_df, preprocess_POS_CASH_balance_df
 
 ### Aggregated dfs ###
 def agg_dfs():
     print("Aggregating non-application dataframes...")
     
     # Placeholder for all aggregated dfs:
-    df_dict = Data().get_data()
+    df_dict = Data().get_data(tables=["application_train", "application_test", "previous_application"])
     df_dict = Data().drop_missing_cols_dict(df_dict, missing_amt=0.3, verbose=True)
     
-    # Update placeholder with customized aggregated dfs:
-    df_cc_agged = Data().df_optimized(preprocess_credit_card_balance_df())
-    df_dict["credit_card_balance"] = df_cc_agged
+    # Customized aggregated dfs:
+    df_dict["credit_card_balance"] = Data().df_optimized(preprocess_credit_card_balance_df())
+    df_dict["bureau"] = Data().df_optimized(get_final_bureau_merged())
+    df_dict["installments_payments"] = Data().df_optimized(preprocess_installments_payments_df())
+    df_dict["POS_CASH_balance"] = Data().df_optimized(preprocess_POS_CASH_balance_df())
+    
     df_dict = Data().drop_missing_cols_dict(df_dict, missing_amt=0.3, verbose=True)
     
     dfs_dict = df_dict.copy()
+    
     # Tables that do not require aggregration:
     dfs_dict.pop('application_train', None)
     dfs_dict.pop('application_test', None)
-    dfs_dict.pop('bureau_balance', None) # No SK_ID_CURR. Will be aggregated separately with 'bureau'.
     dfs_dict.pop('credit_card_balance', None) # Using Max's function.
+    dfs_dict.pop('installments_payments', None) # Using Max's function.
+    dfs_dict.pop('POS_CASH_balance', None) # Using Max's function.
+    dfs_dict.pop('bureau', None) # Using Keji's function.
     
     # Temporary aggregation loop to test pipeline downstream:
     for df_key, df in dfs_dict.items():
         df_dict[df_key] = df.groupby(by="SK_ID_CURR").agg("mean")
     return df_dict
 
+# Merge aggregated dfs
 def merge_dfs(df_app="application_train", verbose=True):
     """ """
     

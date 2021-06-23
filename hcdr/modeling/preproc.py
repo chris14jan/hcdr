@@ -56,7 +56,7 @@ def preproc_pipeline(scaler_type=None, verbose=True):
     
 if __name__ == "__main__": 
     
-    df_merged = merge_dfs(df_app="application_train", verbose=True)
+    df_merged = merge_dfs(df_app="application_train", verbose=True).iloc[:1000]
     X = df_merged.drop(columns=["SK_ID_CURR", "TARGET"])
     y = df_merged["TARGET"]
     
