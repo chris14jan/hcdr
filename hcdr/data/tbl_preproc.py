@@ -2,9 +2,9 @@ from hcdr.data.data import Data
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
-def preprocess_credit_card_balance_df(): 
+def preprocess_credit_card_balance_df(agg="mean"): 
     
-    """ A function that retrieves, preprocesses and groups the credit_card_balance_df by SK_ID_CURR using the mean """
+    """ A function that retrieves, preprocesses, feature engineers and groups the credit_card_balance_df by SK_ID_CURR using the mean """
     
     print("Loading credit card balance data table...")
     credit_card_balance_df = Data().get_data(tables=["credit_card_balance"])["credit_card_balance"]
@@ -23,6 +23,32 @@ def preprocess_credit_card_balance_df():
     columns_to_drop = ["MONTHS_BALANCE", "AMT_BALANCE", "Credit Utilization Ratio", "AMT_CREDIT_LIMIT_ACTUAL"]
     credit_card_balance_df = credit_card_balance_df.drop(columns=columns_to_drop)
 
-    preprocessed_df = credit_card_balance_df.groupby("SK_ID_CURR").agg("mean")
+    preprocessed_df = credit_card_balance_df.groupby("SK_ID_CURR").agg(agg)
     
     return preprocessed_df
+
+def preprocess_installments_payments_df(agg="mean"): 
+    
+    """ A function that retrieves and groups the installments_payments_df by SK_ID_CURR using the mean """
+    
+    installments_payments_df = Data().get_data(tables=["installments_payments"])["installments_payments"]
+    
+    columns_to_drop = ["NUM_INSTALMENT_VERSION"]
+    installments_payments_df = installments_payments_df.drop(columns=columns_to_drop)
+    
+    grouped_df = installments_payments_df.groupby("SK_ID_CURR").agg(agg)
+    
+    return grouped_df
+
+def preprocess_POS_CASH_balance_df(agg="mean"): 
+    
+    """ A function that retrieves and groups the POS_CASH_balance_df by SK_ID_CURR using the mean"""
+    
+    POS_CASH_balance_df = Data().get_data(tables=["POS_CASH_balance"])["POS_CASH_balance"]
+    
+    columns_to_drop = []
+    POS_CASH_balance_df = POS_CASH_balance_df.drop(columns= columns_to_drop)
+    
+    grouped_df = POS_CASH_balance_df.groupby("SK_ID_CURR").agg(agg)
+    
+    return grouped_df

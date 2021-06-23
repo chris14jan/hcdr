@@ -1,15 +1,13 @@
 import pandas as pd
 from hcdr.data.data import Data
-from hcdr.data.cc_bal import preprocess_credit_card_balance_df
+from hcdr.data.tbl_preproc import preprocess_credit_card_balance_df
 
-### Aggregated dfs ### ########################################### remove nrows kwarg ###########################################
+### Aggregated dfs ###
 def agg_dfs():
     print("Aggregating non-application dataframes...")
     
     # Placeholder for all aggregated dfs:
-    ### TODO ###
-    df_dict = Data().get_data(nrows=100_000) ########################################### remove nrows kwarg ###########################################
-    ### TODO ###
+    df_dict = Data().get_data()
     df_dict = Data().drop_missing_cols_dict(df_dict, missing_amt=0.3, verbose=True)
     
     # Update placeholder with customized aggregated dfs:
