@@ -2,7 +2,6 @@ from timeit import default_timer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, RobustScaler, MinMaxScaler
-from sklearn import set_config; set_config(display='diagram')
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 import numpy as np

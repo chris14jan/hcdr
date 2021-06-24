@@ -35,3 +35,7 @@ jupyterlab
 matplotlib
 seaborn
 jupyter_contrib_nbextensions
+
+#modelling 
+xgboost
+tensorflow 

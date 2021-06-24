@@ -58,10 +58,8 @@ class Data:
             print("optimized size by {} % | {} GB".format(ratio, GB))
         return df
     
-    def get_data(self, tables=["application_train", "application_test", "bureau", "bureau_balance", "POS_CASH_balance", 
+    def get_data(self, root_dir = Path(__file__).parents[2], tables=["application_train", "application_test", "bureau", "bureau_balance", "POS_CASH_balance", 
                                "credit_card_balance", "previous_application", "installments_payments"], nrows=None):
-        
-        root_dir = Path(__file__).parents[2]
         
         dict_dict_dtypes = self.map_dtype_cols()
 
