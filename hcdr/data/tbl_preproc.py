@@ -1,6 +1,7 @@
 from hcdr.data.data import Data
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
+import numpy as np
 
 def preprocess_credit_card_balance_df(agg="mean"): 
     
@@ -194,4 +195,4 @@ def get_final_bureau_merged():
     ])
 
     # return final df of merged bureau and bureau_balance with new and encoded features
-    return bureau_merged_agg
+    return bureau_merged_agg.replace(to_replace=np.inf,value=np.nan).replace(to_replace=-np.inf,value=np.nan)

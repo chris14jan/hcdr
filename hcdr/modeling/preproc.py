@@ -2,7 +2,6 @@ from timeit import default_timer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, RobustScaler, MinMaxScaler
-from sklearn import set_config; set_config(display='diagram')
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 import numpy as np
@@ -35,7 +34,7 @@ def preproc_pipeline(scaler_type=None, verbose=True):
     ])
 
     num_transformer = Pipeline([
-        ('imputer', SimpleImputer(missing_values=np.nan, strategy='mean')),
+       ('imputer', SimpleImputer(missing_values=np.nan, strategy='mean')),
     ])
 
     # Paralellize "num_transformer" and "One hot encoder"
