@@ -1,0 +1,2 @@
+neurons_list,AUC_score_test,pre_split,validation_split,undersampling,patience
+"[16, 32, 8, 8]",0.7460380792617798,True,0.3,False,3

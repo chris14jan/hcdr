@@ -32,7 +32,7 @@ def preprocess_installments_payments_df(agg="mean"):
     
     """ A function that retrieves and groups the installments_payments_df by SK_ID_CURR using the mean """
     
-    print("Loading isntallments payments data table...")
+    print("Loading installments payments data table...")
     installments_payments_df = Data().get_data(tables=["installments_payments"])["installments_payments"]
     installments_payments_df = Data().drop_missing_cols_df(installments_payments_df, missing_amt=0.3, verbose=True)
     

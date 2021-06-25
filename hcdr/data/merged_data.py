@@ -1,6 +1,8 @@
 import pandas as pd
 from hcdr.data.data import Data
 from hcdr.data.tbl_preproc import preprocess_credit_card_balance_df, get_final_bureau_merged, preprocess_installments_payments_df, preprocess_POS_CASH_balance_df
+import os
+from pathlib import Path
 
 ### Aggregated dfs ###
 def agg_dfs():
@@ -59,3 +61,53 @@ def merge_dfs(df_app="application_train", verbose=True):
         if verbose:
             print(f"Original shape: {df_dict[df_app].shape[0]}, shape after merge: {df_merged.shape[0]}")
     return df_merged
+
+# Model Data
+def training_data(load_saved=False):
+    """
+    Return (X_train, y_train)"""
+    
+    root_dir = Path(__file__).parents[0]
+    df_merged_path = os.path.join(root_dir, f"merged_tables/df_merged_train.pkl")
+    
+    if load_saved:
+        df_merged = pd.read_pickle(df_merged_path)
+    else:
+        print("CREATING MERGED DF app_train...")
+        df_merged = merge_dfs(df_app="application_train", verbose=True)
+        print("SAVING MERGED DF app_train...")
+        df_merged.to_pickle(df_merged_path)
+    
+    print("SPLITTING MERGED DF INTO X and Y...")
+    X_train = df_merged.drop(columns=["SK_ID_CURR", "TARGET"])
+    y_train = df_merged["TARGET"]
+    
+    print("DELETING MERGED DF FROM MEMORY...")
+    del df_merged
+    
+    return (X_train, y_train)
+
+def test_data(load_saved=False):
+    """
+    Return X_test"""
+    
+    root_dir = Path(__file__).parents[0]
+    df_merged_path = os.path.join(root_dir, f"merged_tables/df_merged_test.pkl")
+    
+    if load_saved:
+        df_merged = pd.read_pickle(df_merged_path)
+    else:
+        print("CREATING MERGED DF app_test...")
+        df_merged = merge_dfs(df_app="application_test", verbose=True)
+        print("SAVING MERGED DF app_train...")
+        df_merged.to_pickle(df_merged_path)
+        
+    X_test = df_merged.drop(columns=["SK_ID_CURR"])
+    
+    print("DELETING MERGED DF FROM MEMORY...")
+    del df_merged
+    
+    return X_test
+
+if __name__ == "__main__": 
+    training_data()
