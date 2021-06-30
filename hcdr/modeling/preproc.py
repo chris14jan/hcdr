@@ -22,11 +22,11 @@ def preproc_pipeline(scaler_type=None, verbose=True):
                        "minmax"   : MinMaxScaler()}
                 : None returns preproc pipeline without scaler
        """
-    
+
     if verbose:
         print("Running preprocessor...")
         print(f"scaler_type={scaler_type}")
-    
+
     # Encode categorical variables
     cat_transformer = Pipeline([
         ('imputer', SimpleImputer(missing_values=np.nan, strategy='constant', fill_value="missing")),
@@ -50,14 +50,14 @@ def preproc_pipeline(scaler_type=None, verbose=True):
         preprocessor2 = Pipeline([
             ('preprocessor1', preprocessor1),
             ('scaler', scaler_func(scaler_type=scaler_type))
-        ])    
+        ])
         return preprocessor2
-    
-if __name__ == "__main__": 
-    
+
+if __name__ == "__main__":
+
     df_merged = merge_dfs(df_app="application_train", verbose=True).iloc[:1000]
     X = df_merged.drop(columns=["SK_ID_CURR", "TARGET"])
     y = df_merged["TARGET"]
-    
+
     preproc = preproc_pipeline(scaler_type=None)
     X_transformed = preproc.fit(X)
