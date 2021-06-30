@@ -1,12 +1,10 @@
-from timeit import default_timer
+# from timeit import default_timer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, RobustScaler, MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 import numpy as np
-
-from hcdr.data.merged_data import merge_dfs
 
 def scaler_func(scaler_type="standard"):
     """ """
@@ -34,7 +32,7 @@ def preproc_pipeline(scaler_type=None, verbose=True):
     ])
 
     num_transformer = Pipeline([
-        ('imputer', SimpleImputer(missing_values=np.nan, strategy='mean')),
+       ('imputer', SimpleImputer(missing_values=np.nan, strategy='mean')),
     ])
 
     # Paralellize "num_transformer" and "One hot encoder"
@@ -53,11 +51,7 @@ def preproc_pipeline(scaler_type=None, verbose=True):
         ])
         return preprocessor2
 
-if __name__ == "__main__":
 
-    df_merged = merge_dfs(df_app="application_train", verbose=True).iloc[:1000]
-    X = df_merged.drop(columns=["SK_ID_CURR", "TARGET"])
-    y = df_merged["TARGET"]
-
+if __name__ == "__main__": 
+    
     preproc = preproc_pipeline(scaler_type=None)
-    X_transformed = preproc.fit(X)
